@@ -1,7 +1,9 @@
 import About from './About';
 import Contact from './Contact';
 import Home from './Home';
+import NotFound from './static/NotFound';
 import { RouteProps } from 'react-router-dom';
+import { flatMapDeep } from 'lodash';
 
 export interface Route extends RouteProps {
   childRoutes?: Route[];
@@ -23,7 +25,15 @@ const routes: Route[] = [
     title: 'Contact',
     path: '/contact',
     component: Contact
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ];
+
+export const flattenedRoutes = flatMapDeep(routes, (route) => {
+  return route.childRoutes ? route.childRoutes : route;
+});
 
 export default routes;

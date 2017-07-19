@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { createStyleSheet, withStyles } from 'material-ui/styles';
-import { find, flatMapDeep, get } from 'lodash';
+import { find, get } from 'lodash';
+import routes, { flattenedRoutes } from '../routes';
 import withWidth, { isWidthUp } from 'material-ui/utils/withWidth';
 
 import AppBar from 'material-ui/AppBar';
@@ -15,7 +16,6 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import routes from '../routes';
 
 const styleSheet = createStyleSheet('AppFrame', (theme) => ({
   '@global': {
@@ -110,12 +110,6 @@ class AppFrame extends React.Component<Props, State> {
   }
 
   getTitle() {
-    const flattenedRoutes = flatMapDeep(routes, (route) => {
-      return route.childRoutes
-        ? route.childRoutes
-        : route;
-    });
-
     return get(find(flattenedRoutes, {path: this.props.pathname}), 'title');
   }
 
