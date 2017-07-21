@@ -32,8 +32,10 @@ const routes: Route[] = [
   }
 ];
 
-export const flattenedRoutes = flatMapDeep(routes, (route) => {
-  return route.childRoutes ? route.childRoutes : route;
-});
+export const getRoute = (route) => route.childRoutes
+  ? route.childRoutes
+  : route;
+
+export const flattenedRoutes = flatMapDeep(routes, getRoute);
 
 export default routes;

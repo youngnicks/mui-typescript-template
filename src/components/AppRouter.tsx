@@ -10,7 +10,7 @@ type Props = {
 const AppRouter: React.StatelessComponent<Props> = (props) => (
   <Switch>
     {flattenedRoutes.map(route => route.path && (
-      <Route key={route.to} {...route}/>
+      <Route key={route.path} {...route}/>
     ))}
   </Switch>
 );

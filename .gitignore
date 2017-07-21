@@ -19,3 +19,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# editors
+.vscode
+.classpath
+.project
+.settings
+.idea
+.metadata
+*.iml
+*.ipr
