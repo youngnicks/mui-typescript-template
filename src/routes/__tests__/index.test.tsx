@@ -1,6 +1,4 @@
-import * as React from 'react';
-
-import routes, { flattenedRoutes, getRoute } from '../index';
+import { flattenedRoutes, getRoute } from '../index';
 
 describe('routes', () => {
   describe('flattenedRoutes', () => {

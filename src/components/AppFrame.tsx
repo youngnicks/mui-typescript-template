@@ -56,10 +56,6 @@ const styleSheet = createStyleSheet('AppFrame', (theme) => ({
   appBar: {
     transition: theme.transitions.create('width')
   },
-  appBarHome: {
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
-  },
   main: {
     marginTop: 64
   },
@@ -127,7 +123,6 @@ class AppFrame extends React.Component<Props, State> {
     } else {
       // Home route, don't shift app bar or dock drawer
       drawerDocked = false;
-      appBarClassName += ` ${classes.appBarHome}`;
     }
 
     return (
