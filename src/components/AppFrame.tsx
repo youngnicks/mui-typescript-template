@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { closeDrawer, toggleDrawer, toggleShade } from '../store/modules/app';
 import { createStyleSheet, withStyles } from 'material-ui/styles';
 import { find, get } from 'lodash';
 import routes, { flattenedRoutes } from '../routes';
@@ -15,7 +16,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import compose from 'recompose/compose';
-import { connect } from 'react-redux';
+import withApp from '../containers/App';
 
 const styleSheet = createStyleSheet('AppFrame', (theme) => ({
   '@global': {
@@ -82,8 +83,13 @@ type Props = {
   children: React.ReactNode,
   classes: typeof styleSheet,
   dispatch: Dispatch<void>,
+  drawerOpen: boolean,
   pathname: string,
-  width: string
+  width: string,
+
+  closeDrawer: typeof closeDrawer,
+  toggleDrawer: typeof toggleDrawer,
+  toggleShade: typeof toggleShade
 };
 
 type State = {
@@ -91,20 +97,6 @@ type State = {
 };
 
 class AppFrame extends React.Component<Props, State> {
-  state = {drawerOpen: false};
-
-  handleDrawerClose = () => {
-    this.setState({drawerOpen: false});
-  }
-
-  handleDrawerToggle = () => {
-    this.setState((state) => ({drawerOpen: !state.drawerOpen}));
-  }
-
-  handleToggleShade = () => {
-    this.props.dispatch({type: 'TOGGLE_THEME_SHADE'});
-  }
-
   getTitle() {
     return get(find(flattenedRoutes, {path: this.props.pathname}), 'title');
   }
@@ -131,7 +123,7 @@ class AppFrame extends React.Component<Props, State> {
           <Toolbar>
             <IconButton
               color="contrast"
-              onClick={this.handleDrawerToggle}
+              onClick={this.props.toggleDrawer}
               className={navIconClassName}
             >
               <MenuIcon/>
@@ -148,7 +140,7 @@ class AppFrame extends React.Component<Props, State> {
             <IconButton
               title="Toggle light/dark theme"
               color="contrast"
-              onClick={this.handleToggleShade}
+              onClick={this.props.toggleShade}
             >
               <LightbulbOutline/>
             </IconButton>
@@ -159,8 +151,8 @@ class AppFrame extends React.Component<Props, State> {
           className={classes.drawer}
           docked={drawerDocked}
           routes={routes}
-          onRequestClose={this.handleDrawerClose}
-          open={drawerDocked || this.state.drawerOpen}
+          onRequestClose={this.props.closeDrawer}
+          open={drawerDocked || this.props.drawerOpen}
         />
 
         <main className={classes.main}>
@@ -171,4 +163,4 @@ class AppFrame extends React.Component<Props, State> {
   }
 }
 
-export default compose(withStyles(styleSheet), withWidth(), connect())(AppFrame);
+export default compose(withApp, withStyles(styleSheet), withWidth())(AppFrame);

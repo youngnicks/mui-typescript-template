@@ -5,22 +5,10 @@ import * as a11y from 'react-a11y';
 import App from './components/App';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import registerServiceWorker from './registerServiceWorker';
+import store from './store';
 
 const rootEl = document.getElementById('root') as HTMLElement;
-
-const reducer = (state = {dark: false}, action) => {
-  if (action.type === 'TOGGLE_THEME_SHADE') {
-    return {
-      ...state,
-      dark: !state.dark
-    };
-  }
-  return state;
-};
-
-export const store = createStore(reducer);
 
 ReactDOM.render(
   <Provider store={store}>

@@ -4,11 +4,12 @@ import MuiThemeProvider, { MUI_SHEET_ORDER } from 'material-ui/styles/MuiThemePr
 
 import AppFrame from './AppFrame';
 import blue from 'material-ui/colors/blue';
-import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import { createMuiTheme } from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
 import pink from 'material-ui/colors/pink';
-import { withRouter } from 'react-router-dom';
+import withApp from '../containers/App';
+import { withRouter } from 'react-router';
 
 type Props = {
   dark: boolean,
@@ -27,7 +28,7 @@ const App: React.StatelessComponent<Props> = (props) => {
 
   const theme = createMuiTheme({palette});
 
-  if (!styleManager) {
+  if (!styleManager || !styleManager.updateTheme) {
     const themeContext = MuiThemeProvider.createDefaultContext({theme});
     styleManager = themeContext.styleManager;
   } else {
@@ -51,4 +52,5 @@ const App: React.StatelessComponent<Props> = (props) => {
   );
 };
 
-export default withRouter(connect((state) => ({dark: state.dark}))(App));
+// withRouter must be first
+export default compose(withRouter, withApp)(App);
